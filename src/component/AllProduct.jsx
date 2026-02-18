@@ -150,13 +150,13 @@ function AllProduct({ search = "" }) {
                     <button
                         type="button"
                         onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-                        className="w-full pl-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-sm"
+                        className="md:w-full w-[100px]  py-1.5 rounded-md bg-white/10 border border-white/20 text-sm"
                     >
                         {category}
                     </button>
 
                     {isCategoryOpen && (
-                        <ul className="absolute z-20 w-full bg-[#1a002e] border border-white/10 rounded-lg mt-2 py-1 text-sm">
+                        <ul className="absolute z-20 md:w-full w-[100px] bg-[#1a002e] border border-white/10 rounded-lg mt-2 py-1 text-sm">
                             {countries.map((country) => (
                                 <li
                                     key={country}
@@ -175,17 +175,17 @@ function AllProduct({ search = "" }) {
                     <button
                         type="button"
                         onClick={() => setIsBrandOpen(!isBrandOpen)}
-                        className="w-full pl-3 py-1.5 rounded-md bg-white/10 border border-white/20 text-sm"
+                        className="md:w-full w-[100px] py-1.5 rounded-md bg-white/10 border border-white/20 text-sm"
                     >
                         {selectedBrand}
                     </button>
 
                     {isBrandOpen && (
-                        <ul className="absolute z-20 w-full bg-[#1a002e] border border-white/10 rounded-lg mt-2 py-1 text-sm">
+                        <ul className="absolute z-20 md:w-full w-[100px] bg-[#1a002e] border border-white/10 rounded-lg mt-2 py-1 text-sm">
                             {Brands.map((brand) => (
                                 <li
                                     key={brand}
-                                    className="px-3 py-1.5 hover:bg-purple-600/40 cursor-pointer"
+                                    className="px-2 py-1.5 hover:bg-purple-600/40 cursor-pointer"
                                     onClick={() => handleBrandSelect(brand)}
                                 >
                                     {brand}
