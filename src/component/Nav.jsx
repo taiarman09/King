@@ -10,13 +10,11 @@ function Nav() {
     const [isLogin, setIsLogin] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
     const [showAccountMenu, setShowAccountMenu] = useState(false)
-    const [showMobileMenu, setShowMobileMenu] = useState(false) // 🔥 NEW STATE
+    const [showMobileMenu, setShowMobileMenu] = useState(false)
 
     useEffect(() => {
         const user = localStorage.getItem("user");
-        if (user) {
-            setIsLogin(true);
-        }
+        if (user) setIsLogin(true);
     }, []);
 
     const handleLogout = () => {
@@ -27,54 +25,26 @@ function Nav() {
 
     return (
         <>
-            <div className='h-[100px] w-full bg-black text-white border border-black flex justify-between items-center sm:px-5 px-3 relative'>
+            {/* 🔥 Blur Wrapper */}
+            <div className={`${showLogin ? "blur-sm pointer-events-none select-none transition-all duration-300" : ""}`}>
 
-                {/* Logo */}
-                <div className='sm:w-[200px] w-[150px] sm:h-[100px]'>
-                    <img className='h-[100%] w-[100%]' src={Logo} alt="" />
-                </div>
+                <div className='h-[100px] w-full bg-black text-white flex justify-between items-center sm:px-5 px-3 relative'>
 
-                {/* Desktop Menu */}
-                <ul className='sm:flex hidden gap-5 items-center text-[20px]'>
-                    <li>Home</li>
-                    <li>About Us</li>
-                    <li>Contact Us</li>
-                    <li><FaRegHeart /></li>
-                    <li><IoCart /></li>
+                    {/* Logo */}
+                    <div className='sm:w-[200px] w-[150px] sm:h-[100px] cursor-pointer'>
+                        <img className='h-full w-full object-contain' src={Logo} alt="logo" />
+                    </div>
 
-                    <li
-                        className='cursor-pointer relative'
-                        onClick={() => {
-                            if (isLogin) {
-                                setShowAccountMenu(!showAccountMenu);
-                            } else {
-                                setShowLogin(true);
-                            }
-                        }}
-                    >
-                        {isLogin ? <FaUserCircle /> : <FaUser />}
-                    </li>
-                </ul>
-
-                {/* Mobile Menu Icon */}
-                <div
-                    onClick={() => setShowMobileMenu(!showMobileMenu)}
-                    className='text-[20px] sm:hidden flex p-3 cursor-pointer'
-                >
-                    <CiMenuFries />
-                </div>
-
-                {/* 🔥 Mobile Dropdown Menu */}
-                {showMobileMenu && (
-                    <ul className="absolute top-[100px] left-0 w-full bg-black flex flex-col items-center gap-5 py-5 sm:hidden z-50">
-                        <li>Home</li>
-                        <li>About Us</li>
-                        <li>Contact Us</li>
-                        <li><FaRegHeart /></li>
-                        <li><IoCart /></li>
+                    {/* Desktop Menu */}
+                    <ul className='sm:flex hidden gap-6 items-center text-[18px]'>
+                        <li className='hover:text-indigo-400 cursor-pointer'>Home</li>
+                        <li className='hover:text-indigo-400 cursor-pointer'>About Us</li>
+                        <li className='hover:text-indigo-400 cursor-pointer'>Contact</li>
+                        <li className='cursor-pointer hover:scale-110 transition'><FaRegHeart /></li>
+                        <li className='cursor-pointer hover:scale-110 transition'><IoCart /></li>
 
                         <li
-                            className='cursor-pointer'
+                            className='cursor-pointer text-xl hover:scale-110 transition'
                             onClick={() => {
                                 if (isLogin) {
                                     setShowAccountMenu(!showAccountMenu);
@@ -86,20 +56,51 @@ function Nav() {
                             {isLogin ? <FaUserCircle /> : <FaUser />}
                         </li>
                     </ul>
-                )}
 
-                {/* Logout Dropdown */}
-                {showAccountMenu && isLogin && (
-                    <div className="absolute right-5 top-[90px] bg-white shadow-md rounded-md p-4 z-50">
-                        <button
-                            onClick={handleLogout}
-                            className="text-red-500"
-                        >
-                            Logout
-                        </button>
+                    {/* Mobile Menu Icon */}
+                    <div
+                        onClick={() => setShowMobileMenu(!showMobileMenu)}
+                        className='text-[22px] sm:hidden flex p-3 cursor-pointer hover:scale-110 transition'
+                    >
+                        <CiMenuFries />
                     </div>
-                )}
 
+                    {/* Mobile Menu */}
+                    {showMobileMenu && (
+                        <ul className="absolute top-[100px] left-0 w-full bg-black flex flex-col items-center gap-6 py-6 sm:hidden z-50">
+                            <li>Home</li>
+                            <li>About Us</li>
+                            <li>Contact</li>
+                            <li><FaRegHeart /></li>
+                            <li><IoCart /></li>
+
+                            <li
+                                onClick={() => {
+                                    if (isLogin) {
+                                        setShowAccountMenu(!showAccountMenu);
+                                    } else {
+                                        setShowLogin(true);
+                                    }
+                                }}
+                            >
+                                {isLogin ? <FaUserCircle /> : <FaUser />}
+                            </li>
+                        </ul>
+                    )}
+
+                    {/* Logout Dropdown */}
+                    {showAccountMenu && isLogin && (
+                        <div className="absolute right-5 top-[90px] bg-white text-black shadow-lg rounded-xl p-4 z-50 animate-fadeIn">
+                            <button
+                                onClick={handleLogout}
+                                className="text-red-500 hover:text-red-700 font-medium"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    )}
+
+                </div>
             </div>
 
             {/* Login Modal */}

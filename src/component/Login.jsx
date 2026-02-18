@@ -1,31 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Login({ setIsLogin, setShowLogin }) {
 
     const [page, setPage] = useState("login");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
+    useEffect(() => {
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+    }, []);
 
     const handleLogin = (e) => {
         e.preventDefault();
-
         localStorage.setItem("user", "loggedIn");
-
-        setIsLogin(true);      // update navbar icon
-        setShowLogin(false);   // close modal
+        setIsLogin(true);
+        setShowLogin(false);
     };
 
     return (
-        <div className="w-full h-[100vh] border border-black flex justify-center items-center fixed top-0 left-0 bg-black/50">
+        <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50"
+            onClick={() => setShowLogin(false)}
+        >
 
-            <div className="bg-white text-gray-500 max-w-96 mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-lg relative">
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white w-[380px] p-8 rounded-2xl shadow-2xl animate-scaleIn relative"
+            >
 
-                {/* Close Button */}
-                <button 
+                {/* Close */}
+                <button
                     onClick={() => setShowLogin(false)}
-                    className="absolute top-2 right-3 text-red-500 text-lg"
+                    className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-lg"
                 >
                     ✕
                 </button>
@@ -33,47 +40,45 @@ function Login({ setIsLogin, setShowLogin }) {
                 {/* LOGIN */}
                 {page === "login" && (
                     <>
-                        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-                            Welcome back
+                        <h2 className="text-2xl font-bold text-center mb-6">
+                            Welcome Back 👋
                         </h2>
 
-                        <form onSubmit={handleLogin}>
+                        <form onSubmit={handleLogin} className="space-y-4">
+
                             <input
-                                className="w-full border my-3 rounded-full py-2.5 px-4"
                                 type="email"
-                                placeholder="Enter your email"
+                                placeholder="Email"
                                 required
+                                className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-indigo-400 outline-none"
                             />
 
                             <input
-                                className="w-full border mt-1 rounded-full py-2.5 px-4"
                                 type="password"
-                                placeholder="Enter your password"
+                                placeholder="Password"
                                 required
+                                className="w-full border px-4 py-3 rounded-xl focus:ring-2 focus:ring-indigo-400 outline-none"
                             />
 
-                            <div className="text-right py-4">
+                            <div className="text-right">
                                 <span
                                     onClick={() => setPage("forgot")}
-                                    className="text-blue-600 underline cursor-pointer"
+                                    className="text-indigo-500 cursor-pointer text-sm"
                                 >
-                                    Forgot Password
+                                    Forgot Password?
                                 </span>
                             </div>
 
-                            <button
-                                type="submit"
-                                className="w-full mb-3 bg-indigo-500 py-2.5 rounded-full text-white"
-                            >
-                                Log in
+                            <button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl transition">
+                                Login
                             </button>
                         </form>
 
-                        <p className="text-center mt-4">
+                        <p className="text-center mt-5 text-sm">
                             Don’t have an account?
                             <span
                                 onClick={() => setPage("signup")}
-                                className="text-blue-500 underline ml-1 cursor-pointer"
+                                className="text-indigo-600 ml-1 cursor-pointer"
                             >
                                 Signup
                             </span>
@@ -84,45 +89,25 @@ function Login({ setIsLogin, setShowLogin }) {
                 {/* SIGNUP */}
                 {page === "signup" && (
                     <>
-                        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-                            Create Account
+                        <h2 className="text-2xl font-bold text-center mb-6">
+                            Create Account 🚀
                         </h2>
 
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                className="w-full border my-3 rounded-full py-2.5 px-4"
-                                type="text"
-                                placeholder="Enter your name"
-                                required
-                            />
+                        <form className="space-y-4">
+                            <input className="w-full border px-4 py-3 rounded-xl" placeholder="Name" />
+                            <input className="w-full border px-4 py-3 rounded-xl" placeholder="Email" />
+                            <input className="w-full border px-4 py-3 rounded-xl" placeholder="Password" />
 
-                            <input
-                                className="w-full border my-3 rounded-full py-2.5 px-4"
-                                type="email"
-                                placeholder="Enter your email"
-                                required
-                            />
-
-                            <input
-                                className="w-full border mt-1 rounded-full py-2.5 px-4"
-                                type="password"
-                                placeholder="Create password"
-                                required
-                            />
-
-                            <button
-                                type="submit"
-                                className="w-full mt-5 mb-3 bg-indigo-500 py-2.5 rounded-full text-white"
-                            >
+                            <button className="w-full bg-indigo-600 text-white py-3 rounded-xl">
                                 Sign Up
                             </button>
                         </form>
 
-                        <p className="text-center mt-4">
+                        <p className="text-center mt-5 text-sm">
                             Already have an account?
                             <span
                                 onClick={() => setPage("login")}
-                                className="text-blue-500 underline ml-1 cursor-pointer"
+                                className="text-indigo-600 ml-1 cursor-pointer"
                             >
                                 Login
                             </span>
@@ -133,38 +118,32 @@ function Login({ setIsLogin, setShowLogin }) {
                 {/* FORGOT */}
                 {page === "forgot" && (
                     <>
-                        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800">
-                            Reset Password
+                        <h2 className="text-2xl font-bold text-center mb-6">
+                            Reset Password 🔑
                         </h2>
 
-                        <form onSubmit={handleSubmit}>
+                        <form className="space-y-4">
                             <input
-                                className="w-full border my-3 rounded-full py-2.5 px-4"
-                                type="email"
-                                placeholder="Enter your registered email"
-                                required
+                                className="w-full border px-4 py-3 rounded-xl"
+                                placeholder="Enter your email"
                             />
 
-                            <button
-                                type="submit"
-                                className="w-full mt-5 mb-3 bg-indigo-500 py-2.5 rounded-full text-white"
-                            >
+                            <button className="w-full bg-indigo-600 text-white py-3 rounded-xl">
                                 Send Reset Link
                             </button>
                         </form>
 
-                        <p className="text-center mt-4">
-                            Remember your password?
+                        <p className="text-center mt-5 text-sm">
+                            Back to
                             <span
                                 onClick={() => setPage("login")}
-                                className="text-blue-500 underline ml-1 cursor-pointer"
+                                className="text-indigo-600 ml-1 cursor-pointer"
                             >
                                 Login
                             </span>
                         </p>
                     </>
                 )}
-
             </div>
         </div>
     );
